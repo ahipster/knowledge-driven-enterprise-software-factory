@@ -1,0 +1,113 @@
+# KDESF core ontology — original exploratory vocabulary, version 0.1 (2026-11-10)
+# URNs are illustrative. This is NOT a complete or OMG-certified ontology.
+# OWL describes meaning; SHACL/business policy validates completeness, permissions and workflows.
+@prefix k: <urn:kdesf:ontology:> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+k:Ontology a owl:Ontology ;
+  rdfs:label "Knowledge-Driven Enterprise Software Factory core" ;
+  owl:versionInfo "0.1.0, proposal" ;
+  rdfs:comment "A small integrative knowledge and governance vocabulary. Native ArchiMate/BPMN/DMN/UML/Bian semantics require explicit adapters." .
+
+k:KnowledgeElement a owl:Class ; rdfs:label "Stable knowledge identity" .
+k:ElementRevision a owl:Class ; rdfs:label "Immutable revision of knowledge" ;
+  rdfs:subClassOf prov:Entity .
+k:SourceArtifact a owl:Class ; rdfs:subClassOf prov:Entity .
+k:RelationshipAssertion a owl:Class ; rdfs:label "Typed, revision-scoped asserted relation" .
+k:Capability a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:CapabilityProfile a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:BusinessProcess a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:ProcessFamily a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:ProcessVariant a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:BusinessConcept a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:Decision a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:BusinessService a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:LogicalInterface a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:LogicalOperation a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:TechnicalContract a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:Requirement a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:Policy a owl:Class ; rdfs:subClassOf k:KnowledgeElement .
+k:ChangeCase a owl:Class .
+k:ChangeSet a owl:Class .
+k:ChangeOperation a owl:Class .
+k:Approval a owl:Class .
+k:RoleAssignment a owl:Class .
+k:Baseline a owl:Class .
+k:AssuranceCase a owl:Class .
+k:Claim a owl:Class .
+k:Evidence a owl:Class ; rdfs:subClassOf prov:Entity .
+k:Observation a owl:Class ; rdfs:subClassOf prov:Entity .
+k:DriftCase a owl:Class .
+k:ReleaseManifest a owl:Class ; rdfs:subClassOf prov:Entity .
+
+# Identity vs revision vs source — distinct relations.
+k:hasRevision a owl:ObjectProperty ;
+  rdfs:domain k:KnowledgeElement ; rdfs:range k:ElementRevision .
+k:revisionOf a owl:ObjectProperty ;
+  owl:inverseOf k:hasRevision ;
+  rdfs:domain k:ElementRevision ; rdfs:range k:KnowledgeElement .
+k:derivedFromSource a owl:ObjectProperty ;
+  rdfs:domain k:ElementRevision ; rdfs:range k:SourceArtifact ;
+  rdfs:subPropertyOf prov:wasDerivedFrom .
+k:homeScope a owl:ObjectProperty ;
+  rdfs:domain k:KnowledgeElement ; rdfs:range k:Capability .
+k:authorityAssignment a owl:ObjectProperty ;
+  rdfs:domain k:KnowledgeElement ; rdfs:range k:RoleAssignment .
+k:baselineMember a owl:ObjectProperty ;
+  rdfs:domain k:Baseline ; rdfs:range k:ElementRevision .
+k:hasOperation a owl:ObjectProperty ;
+  rdfs:domain k:ChangeSet ; rdfs:range k:ChangeOperation .
+k:proposesRevision a owl:ObjectProperty ;
+  rdfs:domain k:ChangeOperation ; rdfs:range k:ElementRevision .
+k:affectsElement a owl:ObjectProperty ;
+  rdfs:domain k:ChangeSet ; rdfs:range k:KnowledgeElement .
+k:approvalFor a owl:ObjectProperty ;
+  rdfs:domain k:Approval ; rdfs:range k:ChangeSet .
+k:reviewedBy a owl:ObjectProperty ;
+  rdfs:domain k:Approval ; rdfs:range k:RoleAssignment .
+k:supportsClaim a owl:ObjectProperty ;
+  rdfs:domain k:Evidence ; rdfs:range k:Claim .
+k:hasClaim a owl:ObjectProperty ;
+  rdfs:domain k:AssuranceCase ; rdfs:range k:Claim .
+k:contradictsRevision a owl:ObjectProperty ;
+  rdfs:domain k:Observation ; rdfs:range k:ElementRevision .
+k:mapsToReference a owl:ObjectProperty ;
+  rdfs:domain k:KnowledgeElement .
+k:implementsRequirement a owl:ObjectProperty ;
+  rdfs:range k:Requirement .
+
+# Domain-neutral directed relationships: native notation legality is checked in adapters.
+k:realizesService a owl:ObjectProperty ;
+  rdfs:domain k:BusinessProcess ; rdfs:range k:BusinessService .
+k:hasVariant a owl:ObjectProperty ;
+  rdfs:domain k:ProcessFamily ; rdfs:range k:ProcessVariant .
+k:usesConcept a owl:ObjectProperty ;
+  rdfs:range k:BusinessConcept .
+k:governedBy a owl:ObjectProperty ;
+  rdfs:range k:Policy .
+k:exposesOperation a owl:ObjectProperty ;
+  rdfs:domain k:LogicalInterface ; rdfs:range k:LogicalOperation .
+k:fulfilledByContract a owl:ObjectProperty ;
+  rdfs:domain k:LogicalOperation ; rdfs:range k:TechnicalContract .
+
+# Datatypes. Do NOT use this ontology alone as an access or approval engine.
+k:classification a owl:DatatypeProperty ;
+  rdfs:domain k:KnowledgeElement ; rdfs:range xsd:integer .
+k:recordedAt a owl:DatatypeProperty ;
+  rdfs:domain k:ElementRevision ; rdfs:range xsd:dateTime .
+k:validFrom a owl:DatatypeProperty ;
+  rdfs:domain k:ElementRevision ; rdfs:range xsd:dateTime .
+k:epistemicStatus a owl:DatatypeProperty ;
+  rdfs:domain k:ElementRevision ; rdfs:range xsd:string .
+k:contentHash a owl:DatatypeProperty ;
+  rdfs:domain k:ElementRevision ; rdfs:range xsd:string .
+k:sourceRef a owl:DatatypeProperty ;
+  rdfs:domain k:SourceArtifact ; rdfs:range xsd:anyURI .
+k:reviewedDiffHash a owl:DatatypeProperty ;
+  rdfs:domain k:Approval ; rdfs:range xsd:string .
+k:decision a owl:DatatypeProperty ;
+  rdfs:domain k:Approval ; rdfs:range xsd:string .
