@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ahipster/knowledge-driven-enterprise-software-factory/blob/main/spec/schemas/approval.schema.json",
+  "title": "KDESF Scoped approval v0.1",
+  "description": "Policy evaluator must verify authority, SoD, revocation, reviewer identity, impact and diff hash.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "changeSetId",
+    "reviewerActorId",
+    "actingRoleAssignment",
+    "policyRevisionId",
+    "reviewedDiffHash",
+    "decision",
+    "decidedAt",
+    "scopeIds"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "changeSetId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "reviewerActorId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "actingRoleAssignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roleId",
+        "scopeId"
+      ],
+      "properties": {
+        "roleId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "scopeId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "assignedActorId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "validFrom": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "validTo": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "delegationId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        }
+      }
+    },
+    "policyRevisionId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "reviewedDiffHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "decision": {
+      "enum": [
+        "approved",
+        "rejected",
+        "changes-requested",
+        "deferred"
+      ]
+    },
+    "decidedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "scopeIds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^urn:kdesf:"
+      },
+      "uniqueItems": true
+    },
+    "reviewedElementRevisionIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^urn:kdesf:"
+      },
+      "uniqueItems": true
+    },
+    "evidenceIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^urn:kdesf:"
+      },
+      "uniqueItems": true
+    },
+    "decisionSignatureRef": {
+      "type": "string"
+    },
+    "effectiveUntil": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
