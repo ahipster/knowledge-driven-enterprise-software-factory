@@ -1,0 +1,355 @@
+{
+  "$comment": "Entire bundle is intentionally synthetic, not a validated company/bank/BIAN model. SHA-256-shaped digests are fixture placeholders; real systems must compute/verify hashes. Element subobjects follow knowledge-element.schema.json; capability profiles and ChangeSets follow their corresponding schemas.",
+  "version": "0.1.0",
+  "synthetic": true,
+  "baselineId": "urn:kdesf:baseline:synthetic-retail:B0",
+  "capabilityProfiles": [
+    {
+      "capabilityId": "urn:kdesf:capability:customer-onboarding",
+      "profileRevisionId": "urn:kdesf:revision:profile:onboarding:v1",
+      "name": "Customer Onboarding",
+      "homeDomainId": "urn:kdesf:domain:retail",
+      "owner": {
+        "roleId": "urn:kdesf:role:capability-owner-onboarding",
+        "scopeId": "urn:kdesf:capability:customer-onboarding"
+      },
+      "classification": 3,
+      "jurisdictions": [
+        "SE"
+      ],
+      "segments": [
+        "retail"
+      ],
+      "outcomeIds": [
+        "urn:kdesf:outcome:relationship-established"
+      ],
+      "processFamilyIds": [
+        "urn:kdesf:process-family:onboarding"
+      ],
+      "informationDomainIds": [
+        "urn:kdesf:domain:party-information"
+      ],
+      "dependencies": [
+        "urn:kdesf:capability:party-information",
+        "urn:kdesf:capability:identity-verification"
+      ],
+      "governanceProfileId": "urn:kdesf:policy:governance:regulated-journey",
+      "requiredArtifacts": [
+        {
+          "type": "ProcessFamily",
+          "gate": "governed-baseline",
+          "applicability": "required"
+        },
+        {
+          "type": "BusinessConcept",
+          "gate": "design-approval",
+          "when": "capabilityUsesInformation",
+          "applicability": "required"
+        },
+        {
+          "type": "LogicalInterface",
+          "gate": "design-approval",
+          "when": "capabilityExposesOperations",
+          "applicability": "required"
+        }
+      ],
+      "reviewCadenceDays": 90
+    },
+    {
+      "capabilityId": "urn:kdesf:capability:party-information",
+      "profileRevisionId": "urn:kdesf:revision:profile:party:v1",
+      "name": "Party Information",
+      "homeDomainId": "urn:kdesf:domain:enterprise-information",
+      "owner": {
+        "roleId": "urn:kdesf:role:capability-owner-party",
+        "scopeId": "urn:kdesf:capability:party-information"
+      },
+      "classification": 3,
+      "jurisdictions": [
+        "SE"
+      ],
+      "segments": [
+        "retail"
+      ],
+      "informationDomainIds": [
+        "urn:kdesf:domain:party-information"
+      ],
+      "dependencies": [],
+      "governanceProfileId": "urn:kdesf:policy:governance:information",
+      "requiredArtifacts": [
+        {
+          "type": "BusinessConcept",
+          "gate": "governed-baseline",
+          "applicability": "required"
+        },
+        {
+          "type": "SystemOfRecordAssignment",
+          "gate": "governed-baseline",
+          "applicability": "required"
+        }
+      ],
+      "reviewCadenceDays": 90
+    }
+  ],
+  "elements": [
+    {
+      "id": "urn:kdesf:process-family:onboarding",
+      "kind": "ProcessFamily",
+      "name": "Customer Onboarding",
+      "namespace": "synthetic-retail-bank",
+      "description": "Synthetic illustrative record; not enterprise authoritative",
+      "homeScopeId": "urn:kdesf:capability:customer-onboarding",
+      "authority": {
+        "roleId": "urn:kdesf:role:process-owner-onboarding",
+        "scopeId": "urn:kdesf:capability:customer-onboarding"
+      },
+      "classification": 3,
+      "revision": {
+        "revisionId": "urn:kdesf:revision:process-family:onboarding:v1",
+        "recordedAt": "2026-11-10T08:00:00Z",
+        "validFrom": "2026-11-01T00:00:00Z",
+        "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "epistemicStatus": "approved-normative",
+      "lifecycle": "active",
+      "baselineIds": [
+        "urn:kdesf:baseline:synthetic-retail:B0"
+      ],
+      "provenance": {
+        "sourceType": "authored",
+        "sourceRef": "docs/10-worked-example.md",
+        "capturedAt": "2026-11-10T08:00:00Z"
+      },
+      "typedProperties": {
+        "outcomeId": "urn:kdesf:outcome:relationship-established",
+        "variants": [
+          "urn:kdesf:process-variant:onboarding:existing-digital"
+        ]
+      },
+      "linkIds": []
+    },
+    {
+      "id": "urn:kdesf:process-variant:onboarding:existing-digital",
+      "kind": "ProcessVariant",
+      "name": "Existing Customer Digital",
+      "namespace": "synthetic-retail-bank",
+      "description": "Synthetic illustrative record; not enterprise authoritative",
+      "homeScopeId": "urn:kdesf:capability:customer-onboarding",
+      "authority": {
+        "roleId": "urn:kdesf:role:process-owner-onboarding",
+        "scopeId": "urn:kdesf:capability:customer-onboarding"
+      },
+      "classification": 3,
+      "revision": {
+        "revisionId": "urn:kdesf:revision:process-variant:onboarding:existing-digital:v1",
+        "recordedAt": "2026-11-10T08:00:00Z",
+        "validFrom": "2026-11-01T00:00:00Z",
+        "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "epistemicStatus": "approved-normative",
+      "lifecycle": "active",
+      "baselineIds": [
+        "urn:kdesf:baseline:synthetic-retail:B0"
+      ],
+      "provenance": {
+        "sourceType": "authored",
+        "sourceRef": "docs/10-worked-example.md",
+        "capturedAt": "2026-11-10T08:00:00Z"
+      },
+      "typedProperties": {
+        "familyId": "urn:kdesf:process-family:onboarding",
+        "applicability": {
+          "channel": "digital",
+          "segment": "retail",
+          "jurisdiction": "SE"
+        },
+        "decisionIds": [
+          "urn:kdesf:decision:reverification-required"
+        ]
+      },
+      "linkIds": []
+    },
+    {
+      "id": "urn:kdesf:concept:identity-verification-status",
+      "kind": "BusinessConcept",
+      "name": "Identity Verification Status",
+      "namespace": "synthetic-retail-bank",
+      "description": "Synthetic illustrative record; not enterprise authoritative",
+      "homeScopeId": "urn:kdesf:capability:party-information",
+      "authority": {
+        "roleId": "urn:kdesf:role:party-information-owner",
+        "scopeId": "urn:kdesf:capability:party-information"
+      },
+      "classification": 3,
+      "revision": {
+        "revisionId": "urn:kdesf:revision:concept:identity-verification-status:v1",
+        "recordedAt": "2026-11-10T08:00:00Z",
+        "validFrom": "2026-11-01T00:00:00Z",
+        "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "epistemicStatus": "approved-normative",
+      "lifecycle": "active",
+      "baselineIds": [
+        "urn:kdesf:baseline:synthetic-retail:B0"
+      ],
+      "provenance": {
+        "sourceType": "authored",
+        "sourceRef": "docs/10-worked-example.md",
+        "capturedAt": "2026-11-10T08:00:00Z"
+      },
+      "typedProperties": {
+        "definition": "Qualified verification assertion, not a Boolean",
+        "attributes": [
+          "outcome",
+          "evaluatedAt",
+          "evidenceReference",
+          "permittedUseScope"
+        ],
+        "invariants": [
+          "Unknown must not be treated as Verified"
+        ],
+        "ownerDomainId": "urn:kdesf:domain:party-information"
+      },
+      "linkIds": []
+    },
+    {
+      "id": "urn:kdesf:decision:reverification-required",
+      "kind": "Decision",
+      "name": "Reverification Required?",
+      "namespace": "synthetic-retail-bank",
+      "description": "Synthetic illustrative record; not enterprise authoritative",
+      "homeScopeId": "urn:kdesf:capability:customer-onboarding",
+      "authority": {
+        "roleId": "urn:kdesf:role:eligibility-decision-owner",
+        "scopeId": "urn:kdesf:capability:customer-onboarding"
+      },
+      "classification": 3,
+      "revision": {
+        "revisionId": "urn:kdesf:revision:decision:reverification-required:v1",
+        "recordedAt": "2026-11-10T08:00:00Z",
+        "validFrom": "2026-11-01T00:00:00Z",
+        "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "epistemicStatus": "approved-normative",
+      "lifecycle": "active",
+      "baselineIds": [
+        "urn:kdesf:baseline:synthetic-retail:B0"
+      ],
+      "provenance": {
+        "sourceType": "authored",
+        "sourceRef": "docs/10-worked-example.md",
+        "capturedAt": "2026-11-10T08:00:00Z"
+      },
+      "typedProperties": {
+        "inputConceptIds": [
+          "urn:kdesf:concept:identity-verification-status"
+        ],
+        "output": "ReverificationDecision",
+        "semanticsStatus": "intentionally-unspecified-until-legal-and-control-review"
+      },
+      "linkIds": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "urn:kdesf:relationship:r1",
+      "predicate": "hasVariant",
+      "from": "urn:kdesf:process-family:onboarding",
+      "to": "urn:kdesf:process-variant:onboarding:existing-digital",
+      "source": "docs/10-worked-example.md"
+    },
+    {
+      "id": "urn:kdesf:relationship:r2",
+      "predicate": "usesInformation",
+      "from": "urn:kdesf:decision:reverification-required",
+      "to": "urn:kdesf:concept:identity-verification-status",
+      "source": "docs/10-worked-example.md"
+    }
+  ],
+  "changeCase": {
+    "id": "urn:kdesf:change-case:CC-17",
+    "signalId": "urn:kdesf:signal:SIG-17",
+    "intentId": "urn:kdesf:intent:INT-4",
+    "state": "committed",
+    "hypotheses": [
+      {
+        "id": "urn:kdesf:hypothesis:HYP-A",
+        "claim": "Reuse qualifying verification evidence only under approved controls",
+        "status": "selected"
+      },
+      {
+        "id": "urn:kdesf:hypothesis:HYP-B",
+        "claim": "Always reverify but streamline UX",
+        "status": "not-selected"
+      },
+      {
+        "id": "urn:kdesf:hypothesis:HYP-C",
+        "claim": "Optimize manual review first",
+        "status": "not-selected"
+      }
+    ],
+    "deferredDecisions": [
+      "Decision table details",
+      "Verification evidence applicability",
+      "Cross-capability data policy"
+    ]
+  },
+  "changeSet": {
+    "id": "urn:kdesf:change-set:CS-17B",
+    "changeCaseId": "urn:kdesf:change-case:CC-17",
+    "baseBaselineId": "urn:kdesf:baseline:synthetic-retail:B0",
+    "proposerId": "urn:kdesf:actor:synthetic-analyst",
+    "policyRevisionId": "urn:kdesf:policy-revision:information-v1",
+    "state": "draft",
+    "reason": "Clarify qualified verification assertion semantics",
+    "operations": [
+      {
+        "type": "modify",
+        "elementId": "urn:kdesf:concept:identity-verification-status",
+        "expectedRevisionId": "urn:kdesf:revision:concept:identity-verification-status:v1",
+        "proposedRevisionId": "urn:kdesf:revision:concept:identity-verification-status:v2",
+        "rationale": "Replace misleading Boolean status with qualified assertion and explicit Unknown"
+      }
+    ]
+  },
+  "requiredReviewers": [
+    {
+      "roleId": "urn:kdesf:role:party-information-owner",
+      "scopeId": "urn:kdesf:capability:party-information"
+    },
+    {
+      "roleId": "urn:kdesf:role:eligibility-decision-owner",
+      "scopeId": "urn:kdesf:capability:customer-onboarding"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "urn:kdesf:criterion:AC-1",
+      "text": "Unknown must not be interpreted as Verified"
+    },
+    {
+      "id": "urn:kdesf:criterion:AC-4",
+      "text": "Identity-derived information disclosed only to authorized caller/purpose"
+    },
+    {
+      "id": "urn:kdesf:criterion:AC-6",
+      "text": "Release pinned to semantic revision and passing evidence"
+    }
+  ],
+  "assuranceClaims": [
+    {
+      "id": "urn:kdesf:claim:illustrative-release-alignment",
+      "text": "A proposed release would match its approved target if tests and approvals pass",
+      "status": "not-yet-proved"
+    }
+  ],
+  "observations": [
+    {
+      "id": "urn:kdesf:observation:OBS-1",
+      "epistemicStatus": "hypothetical",
+      "text": "Synthetic failing display maps Unknown to Eligible",
+      "expectedElementId": "urn:kdesf:concept:identity-verification-status",
+      "disposition": "implementation-correction-proposed"
+    }
+  ]
+}
