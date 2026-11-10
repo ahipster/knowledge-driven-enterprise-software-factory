@@ -1,0 +1,79 @@
+# KDESF minimal SHACL shapes (illustrative v0.1)
+# Requires the ontology to be available to SHACL engine for subclass targets.
+# Temporal overlap, ABAC, graph-hop permissions, SoD and approval policy need app-level checks.
+@prefix k: <urn:kdesf:ontology:> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+k:ElementShape a sh:NodeShape ;
+  sh:targetClass k:KnowledgeElement ;
+  sh:property [
+    sh:path k:hasRevision ;
+    sh:minCount 1 ;
+    sh:class k:ElementRevision ;
+    sh:message "A semantic element needs at least one revision."
+  ] ;
+  sh:property [
+    sh:path k:authorityAssignment ;
+    sh:minCount 1 ;
+    sh:class k:RoleAssignment ;
+    sh:message "An authoritative element needs an accountable scoped assignment."
+  ] ;
+  sh:property [
+    sh:path k:classification ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:integer ;
+    sh:minInclusive 1 ;
+    sh:maxInclusive 4
+  ] ;
+  sh:property [
+    sh:path k:homeScope ;
+    sh:minCount 1 ;
+    sh:class k:Capability
+  ] .
+
+k:RevisionShape a sh:NodeShape ;
+  sh:targetClass k:ElementRevision ;
+  sh:property [
+    sh:path k:revisionOf ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:class k:KnowledgeElement
+  ] ;
+  sh:property [
+    sh:path k:recordedAt ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:dateTime
+  ] ;
+  sh:property [
+    sh:path k:validFrom ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:datatype xsd:dateTime
+  ] ;
+  sh:property [
+    sh:path k:epistemicStatus ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:in ("approved-normative" "approved-target" "proposed" "implemented" "observed" "inferred")
+  ] ;
+  sh:property [
+    sh:path k:contentHash ;
+    sh:minCount 1 ;
+    sh:maxCount 1 ;
+    sh:pattern "^sha256:[0-9a-f]{64}$"
+  ] .
+
+k:ApprovalShape a sh:NodeShape ;
+  sh:targetClass k:Approval ;
+  sh:property [ sh:path k:approvalFor ; sh:minCount 1 ; sh:class k:ChangeSet ] ;
+  sh:property [ sh:path k:reviewedBy ; sh:minCount 1 ; sh:class k:RoleAssignment ] ;
+  sh:property [ sh:path k:reviewedDiffHash ; sh:minCount 1 ; sh:pattern "^sha256:[0-9a-f]{64}$" ] ;
+  sh:property [ sh:path k:decision ; sh:minCount 1 ;
+    sh:in ("approved" "rejected" "changes-requested" "deferred") ] .
+
+k:ChangeSetShape a sh:NodeShape ;
+  sh:targetClass k:ChangeSet ;
+  sh:property [ sh:path k:hasOperation ; sh:minCount 1 ; sh:class k:ChangeOperation ] .
