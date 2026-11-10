@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ahipster/knowledge-driven-enterprise-software-factory/blob/main/spec/schemas/change-set.schema.json",
+  "title": "KDESF Semantic ChangeSet v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "changeCaseId",
+    "baseBaselineId",
+    "proposerId",
+    "state",
+    "operations",
+    "policyRevisionId"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "changeCaseId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "baseBaselineId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "proposerId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "policyRevisionId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "requestedEffectiveAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "state": {
+      "enum": [
+        "draft",
+        "validating",
+        "impact-assessed",
+        "submitted",
+        "in-review",
+        "changes-requested",
+        "rejected",
+        "approved",
+        "conflicted",
+        "promoted",
+        "superseded"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "impactAssessmentId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "reviewedDiffHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "elementId",
+          "rationale"
+        ],
+        "properties": {
+          "type": {
+            "enum": [
+              "add",
+              "modify",
+              "clarify",
+              "link",
+              "unlink",
+              "deprecate",
+              "retire",
+              "supersede",
+              "split",
+              "merge",
+              "rename",
+              "deviate"
+            ]
+          },
+          "elementId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          },
+          "expectedRevisionId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          },
+          "proposedRevisionId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          },
+          "relationId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          },
+          "relatedElementId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidenceIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^urn:kdesf:"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "requiredApprovalRoleAssignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "roleId",
+          "scopeId"
+        ],
+        "properties": {
+          "roleId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          },
+          "scopeId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          },
+          "assignedActorId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          },
+          "validFrom": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validTo": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "delegationId": {
+            "type": "string",
+            "pattern": "^urn:kdesf:"
+          }
+        }
+      }
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
