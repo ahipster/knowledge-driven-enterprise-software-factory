@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ahipster/knowledge-driven-enterprise-software-factory/blob/main/spec/schemas/knowledge-element.schema.json",
+  "title": "KDESF Knowledge Element revision envelope v0.1",
+  "description": "Design proposal: a first-class semantic element revision, distinct from source artifact and implemented/observed state. JSON Schema checks structure, not approvals, temporal integrity, or ABAC.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "kind",
+    "name",
+    "namespace",
+    "homeScopeId",
+    "authority",
+    "classification",
+    "revision",
+    "epistemicStatus",
+    "lifecycle",
+    "provenance"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "namespace": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "homeScopeId": {
+      "type": "string",
+      "pattern": "^urn:kdesf:"
+    },
+    "affectedScopeIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^urn:kdesf:"
+      },
+      "uniqueItems": true
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "roleId",
+        "scopeId"
+      ],
+      "properties": {
+        "roleId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "scopeId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "assignedActorId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "validFrom": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "validTo": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "delegationId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        }
+      }
+    },
+    "classification": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "policyTags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "revisionId",
+        "recordedAt",
+        "validFrom",
+        "contentHash"
+      ],
+      "properties": {
+        "revisionId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "parentRevisionId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "recordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "validFrom": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "validTo": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "epistemicStatus": {
+      "enum": [
+        "approved-normative",
+        "approved-target",
+        "proposed",
+        "implemented",
+        "observed",
+        "inferred"
+      ]
+    },
+    "lifecycle": {
+      "enum": [
+        "draft",
+        "under-review",
+        "active",
+        "deprecated",
+        "retired",
+        "superseded"
+      ]
+    },
+    "baselineIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^urn:kdesf:"
+      },
+      "uniqueItems": true
+    },
+    "nativeArtifactRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifactRef",
+          "format",
+          "sourceHash"
+        ],
+        "properties": {
+          "artifactRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nativeElementId": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "standardVersion": {
+            "type": "string"
+          },
+          "sourceHash": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "adapterVersion": {
+            "type": "string"
+          },
+          "lossiness": {
+            "enum": [
+              "none",
+              "partial",
+              "unknown"
+            ]
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceType",
+        "sourceRef",
+        "capturedAt"
+      ],
+      "properties": {
+        "sourceType": {
+          "enum": [
+            "authored",
+            "imported",
+            "agent-proposed",
+            "reverse-engineered",
+            "runtime-observed"
+          ]
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nativeElementId": {
+          "type": "string"
+        },
+        "sourceHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "mappingVersion": {
+          "type": "string"
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "agentRunId": {
+          "type": "string",
+          "pattern": "^urn:kdesf:"
+        },
+        "lossiness": {
+          "enum": [
+            "none",
+            "partial",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "typedProperties": {
+      "type": "object",
+      "description": "Kind-specific properties MUST be validated using a separate typed profile/schema."
+    },
+    "linkIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^urn:kdesf:"
+      },
+      "uniqueItems": true
+    }
+  }
+}
